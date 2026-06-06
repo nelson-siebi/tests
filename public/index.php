@@ -74,6 +74,7 @@ $router->add('GET', '/admin/plans/edit', 'AdminController@editPlan');
 $router->add('POST', '/admin/plans/edit', 'AdminController@updatePlan');
 $router->add('POST', '/admin/plans/delete', 'AdminController@deletePlan');
 $router->add('GET', '/admin/payout', 'AdminController@processPayouts');
+$router->add('GET', '/cron/payout', 'CronController@processPayouts');
 $router->add('GET', '/admin/ads', 'AdminController@ads');
 $router->add('POST', '/admin/ads/create', 'AdminController@createAd');
 $router->add('POST', '/admin/ads/update', 'AdminController@updateAd');
