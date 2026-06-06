@@ -54,6 +54,8 @@ return [
     'transaction_reference' => 'Référence de Transaction',
     'payment_instructions' => 'Instructions de Paiement',
     'payment_instructions_desc' => 'Envoyez le montant sur le numéro Orange/MTN :',
+    'confirm_payment_step' => 'J\'ai lancé le paiement',
+    'payment_done_button' => 'J\'ai effectué le paiement',
     'validate_deposit' => 'Valider le Dépôt',
     'recent_history' => 'Historique Récent',
     'no_deposits' => 'Aucun dépôt effectué.',

@@ -54,6 +54,8 @@ return [
     'transaction_reference' => 'Transaction Reference',
     'payment_instructions' => 'Payment Instructions',
     'payment_instructions_desc' => 'Send the amount to the Orange/MTN number:',
+    'confirm_payment_step' => 'I launched the payment',
+    'payment_done_button' => 'I have made the payment',
     'validate_deposit' => 'Validate Deposit',
     'recent_history' => 'Recent History',
     'no_deposits' => 'No deposits made yet.',
