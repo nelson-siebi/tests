@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>investian- Studio SMS Dynamique</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght=400;500&display=swap');
+        body { font-family: 'Roboto', sans-serif; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        /* Bulle de réception originale native Google Messages */
+        .message-bubble { background-color: #303134; border-radius: 24px 24px 24px 4px; }
+        .message-bubble-first { background-color: #303134; border-radius: 4px 24px 24px 24px; }
+        
+        /* Correction structurelle stricte pour html2canvas (Fini les décalages de l'en-tête) */
+        .status-bar-fixed { display: block; position: relative; width: 100%; height: 32px; background-color: #121212; box-sizing: border-box; }
+        .header-left { position: absolute; left: 16px; top: 8px; display: flex; align-items: center; gap: 6px; }
+        .header-right { position: absolute; right: 16px; top: 8px; display: flex; align-items: center; gap: 6px; }
+    </style>
+</head>
+<body class="bg-[#0f0f12] text-gray-200 min-h-screen p-4 flex flex-col items-center justify-center gap-6 lg:flex-row lg:items-start lg:p-8">
+
+    <div class="bg-[#16161a] border border-gray-800 p-6 rounded-2xl w-full max-w-xl shadow-xl flex flex-col gap-4">
+        <div class="flex justify-between items-center border-b border-gray-800 pb-3">
+            <div>
+                <h1 class="text-xl font-bold text-orange-500 tracking-wide">investian SMS Generator</h1>
+                <p class="text-xs text-gray-500">Cadrage WYSIWYG : Ajuste le scroll sur le téléphone avant de capturer</p>
+            </div>
+            <button onclick="genererVersionAleatoire()" class="bg-orange-600 hover:bg-orange-700 text-white px-3 py-1.5 rounded-xl text-xs font-medium transition-all shadow-md">
+                🎲 Mode Chaos (Aléatoire)
+            </button>
+        </div>
+
+        <div class="grid grid-cols-3 gap-3 bg-[#1f1f24] p-3 rounded-xl border border-gray-800">
+            <div>
+                <label class="block text-[10px] text-gray-400 font-medium uppercase mb-1">Heure Tél</label>
+                <input type="text" id="in_heure_sys" value="21:53" class="w-full bg-[#16161a] border border-gray-700 p-2 rounded-lg text-xs text-white focus:outline-none">
+            </div>
+            <div>
+                <label class="block text-[10px] text-gray-400 font-medium uppercase mb-1">Batterie %</label>
+                <input type="number" id="in_batterie" value="14" class="w-full bg-[#16161a] border border-gray-700 p-2 rounded-lg text-xs text-white focus:outline-none">
+            </div>
+            <div>
+                <label class="block text-[10px] text-gray-400 font-medium uppercase mb-1">Texte Alerte</label>
+                <input type="text" id="in_alerte_msg" value="1 new message" class="w-full bg-[#16161a] border border-gray-700 p-2 rounded-lg text-xs text-white focus:outline-none">
+            </div>
+        </div>
+
+        <div class="flex flex-col gap-3">
+            <div class="flex justify-between items-center">
+                <h3 class="text-sm font-semibold text-gray-300">📱 Flux des messages reçus</h3>
+                <button onclick="ajouterNouveauMessage()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1 rounded-lg text-xs font-medium transition-all">+ Ajouter un message de paiement</button>
+            </div>
+
+            <div id="blocs_editeurs_container" class="flex flex-col gap-3 max-h-[380px] overflow-y-auto pr-1 no-scrollbar">
+                </div>
+        </div>
+
+        <button onclick="telechargerCapture()" class="w-full bg-orange-600 hover:bg-orange-700 text-white py-3 rounded-xl font-medium transition-all shadow-lg flex items-center justify-center gap-2 mt-2">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+            Télécharger l'image selon le cadrage actuel (.PNG)
+        </button>
+    </div>
+
+    <div id="phone_capture_zone" class="phone-container w-[380px] h-[820px] bg-[#121212] flex flex-col relative overflow-hidden rounded-[20px] shadow-2xl shrink-0 border border-gray-950">
+        
+        <div class="status-bar-fixed z-30">
+            <div class="header-left text-white text-[13px] font-medium">
+                <span id="var_heure_sys">21:53</span>
+                <span class="text-[11px] font-bold tracking-wider">P</span>
+                <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
+            </div>
+            <div class="header-right text-white text-[13px] font-medium">
+                <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg>
+                <span class="text-[10px] font-bold">4G+</span>
+                <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor"><path d="M2 22h20V2L2 22z"/></svg>
+                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M15.67 4H14V2h-4v2H8.33C7.6 4 7 4.6 7 5.33v15.33C7 21.4 7.6 22 8.33 22h7.33c.74 0 1.34-.6 1.34-1.33V5.33C17 4.6 16.4 4 15.67 4z"/></svg>
+                <span id="var_batterie" class="text-[13px]">14</span>
+            </div>
+        </div>
+
+        <div class="flex items-center px-4 py-3 bg-[#121212] z-30 border-b border-[#1f1f1f]">
+            <svg class="w-6 h-6 text-[#e3e3e3] mr-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M20 12H4m0 0l6-6m-6 6l6 6"></path></svg>
+            <div class="w-10 h-10 bg-[#303134] rounded-full flex items-center justify-center mr-3">
+                <svg class="w-6 h-6 text-[#9aa0a6]" fill="currentColor" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+            </div>
+            <span class="text-[#e3e3e3] text-[22px] font-normal flex-1">MobileMoney</span>
+            <svg class="w-5 h-5 text-[#9aa0a6]" fill="currentColor" viewBox="0 0 24 24"><path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></svg>
+        </div>
+
+        <div id="scroll_area" class="flex-1 overflow-y-auto no-scrollbar bg-[#121212] px-4 pt-4 flex flex-col gap-6 pb-48 z-10">
+            
+            <div class="message-bubble-first p-5 w-[92%] self-start text-[#e3e3e3] shrink-0">
+                <div class="text-[22px] mb-3 leading-tight">proceed</div>
+                <div class="flex items-center gap-2">
+                    <div class="bg-[#007b8a] w-5 h-5 flex items-center justify-center rounded-[2px]">
+                        <svg class="w-3 h-3 text-[#ffcc00]" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2L2 22h20L12 2z"/></svg>
+                    </div>
+                    <span class="text-[17px] tracking-wide">momo.mtn.com</span>
+                </div>
+            </div>
+
+            <div id="chat_messages_container" class="flex flex-col gap-6 w-full ">
+                </div>
+        </div>
+
+        <div class="absolute bottom-[105px] left-1/2 -translate-x-1/2 bg-[#303134] text-[#e3e3e3] px-4 py-2 rounded-full flex items-center gap-2 text-[14px] shadow-2xl z-31 border border-[#5f6368] whitespace-nowrap">
+            <svg class="w-4 h-4 text-[#e3e3e3]" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
+            <span id="var_alerte_msg">1 new message</span>
+        </div>
+
+        <div class="absolute bottom-[48px] left-0 w-full px-5 py-4 bg-[#121212] border-t border-[#232323] z-30">
+            <p class="text-[#e3e3e3] text-[15px] tracking-wide">
+                Can't reply to this short code. <a href="#" class="text-[#8ab4f8] underline decoration-1 underline-offset-2">Learn<br>more</a>
+            </p>
+        </div>
+
+        <div class="flex justify-around items-center h-[48px] bg-[#121212] px-6 text-[#9aa0a6] absolute bottom-0 left-0 w-full z-30 border-t border-[#1a1a1a]">
+            <div class="w-12 h-12 flex items-center justify-center"><div class="flex gap-[3px]"><div class="w-[3px] h-[14px] bg-[#9aa0a6] rounded-full"></div><div class="w-[3px] h-[14px] bg-[#9aa0a6] rounded-full"></div><div class="w-[3px] h-[14px] bg-[#9aa0a6] rounded-full"></div></div></div>
+            <div class="w-12 h-12 flex items-center justify-center"><div class="w-[18px] h-[18px] border-[2px] border-[#9aa0a6] rounded-[6px]"></div></div>
+            <div class="w-12 h-12 flex items-center justify-center"><svg class="w-5 h-5 text-[#9aa0a6] transform rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"></path></svg></div>
+        </div>
+    </div>
+
+    <script>
+        // Instance globale des messages
+        let messagesArray = [
+            {
+                id: 1,
+                dateSeparateur: "Yesterday",
+                heureSeparateur: "10:27",
+                montant: "13000",
+                expediteur: "investian ltd",
+                numero: "237656720564",
+                dateTx: "2026-06-01",
+                heureTx: "10:27:12",
+                solde: "15700",
+                txId: "16200059114"
+            }
+        ];
+
+        // Écouteurs pour les paramètres système fixes
+        document.getElementById('in_heure_sys').addEventListener('input', (e) => document.getElementById('var_heure_sys').innerText = e.target.value);
+        document.getElementById('in_batterie').addEventListener('input', (e) => document.getElementById('var_batterie').innerText = e.target.value);
+        document.getElementById('in_alerte_msg').addEventListener('input', (e) => document.getElementById('var_alerte_msg').innerText = e.target.value);
+
+        function ajouterNouveauMessage() {
+            const id = Date.now();
+            const dernierMsg = messagesArray[messagesArray.length - 1] || {};
+            
+            // On pré-remplit avec des valeurs cohérentes basées sur le dernier message
+            messagesArray.push({
+                id: id,
+                dateSeparateur: "Today",
+                heureSeparateur: document.getElementById('in_heure_sys').value,
+                montant: "5000",
+                expediteur: dernierMsg.expediteur || "TRANZAK",
+                numero: dernierMsg.numero || "237672983361",
+                dateTx: new Date().toISOString().split('T')[0],
+                heureTx: document.getElementById('in_heure_sys').value + ":00",
+                solde: (parseInt(dernierMsg.solde || 15794) + 5000).toString(),
+                txId: "162" + Math.floor(10000000 + Math.random() * 89999999)
+            });
+            render();
+        }
+
+        function supprimerMessage(id) {
+            if(messagesArray.length <= 1) {
+                alert("Vous devez garder au moins une bulle de transaction.");
+                return;
+            }
+            messagesArray = messagesArray.filter(m => m.id !== id);
+            render();
+        }
+
+        function updateMessageData(id, cle, valeur) {
+            const idx = messagesArray.findIndex(m => m.id === id);
+            if(idx !== -1) {
+                messagesArray[idx][cle] = valeur;
+                
+                // Si on change l'heure de transaction, on synchronise l'heure du séparateur associé
+                if(cle === 'heureTx') {
+                    messagesArray[idx]['heureSeparateur'] = valeur.substring(0, 5);
+                    document.getElementById(`in_sep_h_${id}`).value = valeur.substring(0, 5);
+                }
+                renderVisualsOnly();
+            }
+        }
+
+        // Rendu complet : Éditeur (gauche) + Téléphone (droite)
+        function render() {
+            const containerEditeur = document.getElementById('blocs_editeurs_container');
+            containerEditeur.innerHTML = '';
+
+            messagesArray.forEach((msg, index) => {
+                const formCard = document.createElement('div');
+                formCard.className = "bg-[#202024] p-4 rounded-xl border border-gray-700 flex flex-col gap-3 relative";
+                
+                formCard.innerHTML = `
+                    <div class="flex justify-between items-center border-b border-gray-700 pb-1.5">
+                        <span class="text-xs font-bold text-orange-400">💵 Message Récépissé #${index + 1}</span>
+                        <button onclick="supprimerMessage(${msg.id})" class="text-red-500 hover:text-red-400 text-xs font-medium">Supprimer</button>
+                    </div>
+                    <div class="grid grid-cols-2 gap-2 text-xs">
+                        <div>
+                            <label class="block text-gray-400 mb-0.5">Date Séparateur</label>
+                            <input type="text" value="${msg.dateSeparateur}" oninput="updateMessageData(${msg.id}, 'dateSeparateur', this.value)" class="w-full bg-[#16161a] border border-gray-700 p-1.5 rounded text-white focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-gray-400 mb-0.5">Heure Séparateur</label>
+                            <input type="text" id="in_sep_h_${msg.id}" value="${msg.heureSeparateur}" oninput="updateMessageData(${msg.id}, 'heureSeparateur', this.value)" class="w-full bg-[#16161a] border border-gray-700 p-1.5 rounded text-white focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-gray-400 mb-0.5">Montant (XAF)</label>
+                            <input type="number" value="${msg.montant}" oninput="updateMessageData(${msg.id}, 'montant', this.value)" class="w-full bg-[#16161a] border border-gray-700 p-1.5 rounded text-white focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-gray-400 mb-0.5">Expéditeur</label>
+                            <input type="text" value="${msg.expediteur}" oninput="updateMessageData(${msg.id}, 'expediteur', this.value)" class="w-full bg-[#16161a] border border-gray-700 p-1.5 rounded text-white focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-gray-400 mb-0.5">Numéro</label>
+                            <input type="text" value="${msg.numero}" oninput="updateMessageData(${msg.id}, 'numero', this.value)" class="w-full bg-[#16161a] border border-gray-700 p-1.5 rounded text-white focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-gray-400 mb-0.5">Transaction ID</label>
+                            <input type="text" value="${msg.txId}" oninput="updateMessageData(${msg.id}, 'txId', this.value)" class="w-full bg-[#16161a] border border-gray-700 p-1.5 rounded text-white focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-gray-400 mb-0.5">Date Tx (AAAA-MM-JJ)</label>
+                            <input type="text" value="${msg.dateTx}" oninput="updateMessageData(${msg.id}, 'dateTx', this.value)" class="w-full bg-[#16161a] border border-gray-700 p-1.5 rounded text-white focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-gray-400 mb-0.5">Heure Tx (HH:MM:SS)</label>
+                            <input type="text" value="${msg.heureTx}" oninput="updateMessageData(${msg.id}, 'heureTx', this.value)" class="w-full bg-[#16161a] border border-gray-700 p-1.5 rounded text-white focus:outline-none">
+                        </div>
+                        <div class="col-span-2">
+                            <label class="block text-gray-400 mb-0.5">Nouveau Solde (FCFA)</label>
+                            <input type="number" value="${msg.solde}" oninput="updateMessageData(${msg.id}, 'solde', this.value)" class="w-full bg-[#16161a] border border-gray-700 p-1.5 rounded text-white focus:outline-none">
+                        </div>
+                    </div>
+                `;
+                containerEditeur.appendChild(formCard);
+            });
+
+            renderVisualsOnly();
+        }
+
+        // Rendu graphique à l'intérieur de l'écran du smartphone
+        function renderVisualsOnly() {
+            const chatContainer = document.getElementById('chat_messages_container');
+            chatContainer.innerHTML = '';
+
+            messagesArray.forEach(msg => {
+                // 1. Ajout de l'en-tête de date de la bulle
+                const elementDate = document.createElement('div');
+                elementDate.className = "text-center text-[#9aa0a6] text-[12px] font-medium -mb-2";
+                elementDate.innerHTML = `<span>${msg.dateSeparateur}</span> • <span>${msg.heureSeparateur}</span>`;
+                chatContainer.appendChild(elementDate);
+
+                // 2. Ajout du corps du message formaté (Copie conforme exacte du design original)
+                const elementBulle = document.createElement('div');
+                elementBulle.className = "message-bubble p-4 w-[92%]  self-start text-[#e3e3e3] text-[26px] leading-[1.35] tracking-wide mr-auto";
+                
+                elementBulle.innerHTML = `
+                    Vous avez recu <span class="underline decoration-1 underline-offset-4">${msg.montant}</span><br>
+                    <span class="underline decoration-1 underline-offset-4">XAF de <span>${msg.expediteur}</span></span> .<br>
+                    (<span class="underline decoration-1 underline-offset-4">${msg.numero}</span> ) sur<br>
+                    votre compte Mobile<br>
+                    Money <span class="underline decoration-1 underline-offset-4">${msg.dateTx}</span><br>
+                    <span class="underline decoration-1 underline-offset-4">${msg.heureTx}</span>. Message de<br>
+                    l'expediteur:. Votre<br>
+                    nouveau solde est de<br>
+                    <span class="underline decoration-1 underline-offset-4">${msg.solde}</span> FCFA. Frais: 0<br>
+                    XAF. Transaction ID:<br>
+                    <span class="underline decoration-1 underline-offset-4">${msg.txId}</span>.<br>
+                    
+                `;
+                chatContainer.appendChild(elementBulle);
+            });
+        }
+
+        // Mode Aléatoire Total (Chaos Intelligent multi-messages)
+        function genererVersionAleatoire() {
+            const expes = ["TRANZAK", "INVESTIAN CM", "Nelsius Pay"];
+            messagesArray = [];
+            
+            // Génère entre 1 et 3 messages aléatoires pour remplir le flux de façon réaliste
+            const nbMessages = Math.floor(Math.random() * 2) + 1; 
+            let baseSolde = Math.floor(Math.random() * 10000) + 2000;
+
+            for(let i=0; i<nbMessages; i++) {
+                const mt = Math.floor(Math.random() * (25000 - 3000) + 3000);
+                baseSolde += mt;
+                const h = Math.floor(Math.random() * 23);
+                const m = Math.floor(Math.random() * 59);
+                
+                messagesArray.push({
+                    id: Date.now() + i,
+                    dateSeparateur: i === 0 ? "Yesterday" : "Today",
+                    heureSeparateur: `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}`,
+                    montant: mt.toString(),
+                    expediteur: expes[Math.floor(Math.random() * expes.length)],
+                    numero: "2376" + Math.floor(550000000 + Math.random() * 440000000),
+                    dateTx: "2026-03-09",
+                    heureTx: `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}:${Math.floor(Math.random() * 59).toString().padStart(2, '0')}`,
+                    solde: baseSolde.toString(),
+                    txId: "162" + Math.floor(10000000 + Math.random() * 89999999)
+                });
+            }
+
+            // Mise à jour de l'heure globale système calée sur le dernier message
+            const dernierMsg = messagesArray[messagesArray.length - 1];
+            document.getElementById('in_heure_sys').value = dernierMsg.heureSeparateur;
+            document.getElementById('var_heure_sys').innerText = dernierMsg.heureSeparateur;
+            document.getElementById('in_batterie').value = Math.floor(Math.random() * 80 + 12);
+            document.getElementById('var_batterie').innerText = document.getElementById('in_batterie').value;
+
+            render();
+        }
+
+        // Capture WYSIWYG absolue de l'état cadré du téléphone
+        function telechargerCapture() {
+            const cible = document.getElementById('phone_capture_zone');
+            
+            html2canvas(cible, {
+                scale: 3, // Résolution Ultra-Nette sans aucun flou
+                logging: false,
+                useCORS: true,
+                backgroundColor: "#121212",
+                scrollY: 0, // Ne prend pas en compte le scroll de la page globale
+                scrollX: 0
+            }).then(canvas => {
+                const link = document.createElement('a');
+                link.download = `nelsius_studio_capture_${Date.now()}.png`;
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+            });
+        }
+
+        // Lancement au chargement
+        window.onload = () => { render(); };
+    </script>
+</body>
+</html>

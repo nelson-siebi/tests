@@ -1,0 +1,34 @@
+# Configuration PHP pour l'administration
+# Active l'affichage des erreurs en développement
+
+# Activer l'affichage des erreurs PHP
+php_flag display_errors On
+php_flag display_startup_errors On
+php_value error_reporting E_ALL
+
+# Fichier de log personnalisé
+php_value error_log php_errors.log
+
+# Activer le logging des erreurs
+php_flag log_errors On
+
+# Taille maximale des uploads (si nécessaire)
+php_value upload_max_filesize 10M
+php_value post_max_size 10M
+
+# Temps d'exécution maximum
+php_value max_execution_time 300
+
+# Protection contre l'accès direct aux fichiers sensibles
+<FilesMatch "\.(log|md)$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Permettre l'accès au fichier de logs uniquement depuis localhost
+<Files "php_errors.log">
+    Order deny,allow
+    Deny from all
+    Allow from 127.0.0.1
+    Allow from ::1
+</Files>

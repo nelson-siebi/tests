@@ -1,0 +1,225 @@
+[14-Jan-2026 08:29:05 America/New_York] [2026-01-14 08:29:05] === DÉMARRAGE DU SCRIPT ===
+[14-Jan-2026 08:29:05 America/New_York] [2026-01-14 08:29:05] Tentative d'inclusion de config/database.php
+[14-Jan-2026 08:29:05 America/New_York] [2026-01-14 08:29:05] Fichier database.php inclus avec succès
+[14-Jan-2026 08:29:05 America/New_York] [2026-01-14 08:29:05] Admin ID dans session | DATA: {"admin_id":1}
+[14-Jan-2026 08:29:05 America/New_York] [2026-01-14 08:29:05] Tentative de connexion à la base de données
+[14-Jan-2026 08:29:05 America/New_York] [2026-01-14 08:29:05] Connexion à la base de données réussie
+[14-Jan-2026 08:29:05 America/New_York] [2026-01-14 08:29:05] Vérification du rôle admin | DATA: {"admin_id":1}
+[14-Jan-2026 08:29:05 America/New_York] [2026-01-14 08:29:05] Récupération du rôle | DATA: {"role":"superadmin"}
+[14-Jan-2026 08:29:05 America/New_York] [2026-01-14 08:29:05] Rôle vérifié avec succès | DATA: {"role":"superadmin"}
+[14-Jan-2026 08:29:05 America/New_York] [2026-01-14 08:29:05] Analyse des paramètres GET | DATA: {"page":"kyc"}
+[14-Jan-2026 08:29:05 America/New_York] [2026-01-14 08:29:05] Récupération des transactions en attente
+[14-Jan-2026 08:29:05 America/New_York] [2026-01-14 08:29:05] === DÉBUT getPendingTransactions ===
+[14-Jan-2026 08:29:05 America/New_York] [2026-01-14 08:29:05] SQL pour getPendingTransactions | DATA: "\n            SELECT \n                pt.*,\n                p.nom as plan_nom,\n                p.roi_journalier,\n                p.duree_jours,\n                u.nom,\n                u.prenom,\n                u.email,\n                u.phone,\n                TIMESTAMPDIFF(MINUTE, NOW(), pt.expires_at) as minutes_remaining,\n                CASE \n                    WHEN pt.expires_at < NOW() THEN 'expired'\n                    ELSE 'active'\n                END as expiration_status\n            FROM pending_transactions pt\n            LEFT JOIN plans p ON pt.plan_id = p.id\n            LEFT JOIN users u ON pt.user_id = u.id\n            WHERE pt.status = 'pending'\n            ORDER BY pt.created_at DESC\n        "
+[14-Jan-2026 08:29:05 America/New_York] [2026-01-14 08:29:05] Transactions récupérées | DATA: {"count":47,"premier":{"id":102,"user_id":143,"plan_id":3,"montant":"4000.00","methode":"orange","numero_telephone":"+237 670 45 72 18","transaction_code":"TXN2026011408043237EAAEBE","status":"pending","expires_at":"2026-04-28 12:04:32","created_at":"2026-01-14 13:04:31","updated_at":"2026-01-14 13:04:31","session_data":"{\"user_agent\":\"Mozilla\\\/5.0 (Linux; Android 12; Infinix X6516) AppleWebKit\\\/537.36 (KHTML, like Gecko) Chrome\\\/105.0.0.0 Mobile Safari\\\/537.36\",\"ip_address\":\"129.0.80.151\",\"referrer\":\"https:\\\/\\\/investian.infy.uk\\\/investissement\",\"timestamp\":1768395872}","plan_nom":"vip1","roi_journalier":"1000.00","duree_jours":30,"nom":"Mbe","prenom":"Ulrich","email":"mbeulrich2@gmail.com","phone":"+237 670 45 72 18","minutes_remaining":149675,"expiration_status":"active"}}
+[14-Jan-2026 08:29:05 America/New_York] [2026-01-14 08:29:05] Transactions en attente récupérées | DATA: {"count":47}
+[14-Jan-2026 08:29:05 America/New_York] [2026-01-14 08:29:05] Vérification de la structure de la base
+[14-Jan-2026 08:29:05 America/New_York] [2026-01-14 08:29:05] Table pending_transactions | DATA: {"exists":true}
+[14-Jan-2026 08:29:05 America/New_York] [2026-01-14 08:29:05] Table plans | DATA: {"exists":true}
+[14-Jan-2026 08:29:05 America/New_York] [2026-01-14 08:29:05] Table users | DATA: {"exists":true}
+[14-Jan-2026 08:29:05 America/New_York] [2026-01-14 08:29:05] Table user_plans | DATA: {"exists":true}
+[14-Jan-2026 08:29:05 America/New_York] [2026-01-14 08:29:05] Table transactions | DATA: {"exists":true}
+[14-Jan-2026 08:29:05 America/New_York] [2026-01-14 08:29:05] Table wallets | DATA: {"exists":true}
+[14-Jan-2026 08:29:05 America/New_York] [2026-01-14 08:29:05] Statistiques | DATA: {"pending_transactions":47,"user_plans":5}
+[14-Jan-2026 08:29:31 America/New_York] [2026-01-14 08:29:31] === DÉMARRAGE DU SCRIPT ===
+[14-Jan-2026 08:29:31 America/New_York] [2026-01-14 08:29:31] Tentative d'inclusion de config/database.php
+[14-Jan-2026 08:29:31 America/New_York] [2026-01-14 08:29:31] Fichier database.php inclus avec succès
+[14-Jan-2026 08:29:31 America/New_York] [2026-01-14 08:29:31] Admin ID dans session | DATA: {"admin_id":1}
+[14-Jan-2026 08:29:31 America/New_York] [2026-01-14 08:29:31] Tentative de connexion à la base de données
+[14-Jan-2026 08:29:31 America/New_York] [2026-01-14 08:29:31] Connexion à la base de données réussie
+[14-Jan-2026 08:29:31 America/New_York] [2026-01-14 08:29:31] Vérification du rôle admin | DATA: {"admin_id":1}
+[14-Jan-2026 08:29:31 America/New_York] [2026-01-14 08:29:31] Récupération du rôle | DATA: {"role":"superadmin"}
+[14-Jan-2026 08:29:31 America/New_York] [2026-01-14 08:29:31] Rôle vérifié avec succès | DATA: {"role":"superadmin"}
+[14-Jan-2026 08:29:31 America/New_York] [2026-01-14 08:29:31] Analyse des paramètres GET | DATA: {"page":"kyc","action":"validate","id":"102"}
+[14-Jan-2026 08:29:31 America/New_York] [2026-01-14 08:29:31] Action VALIDER détectée | DATA: {"id":"102"}
+[14-Jan-2026 08:29:31 America/New_York] [2026-01-14 08:29:31] === DÉBUT validateTransaction === | DATA: {"transaction_id":"102"}
+[14-Jan-2026 08:29:31 America/New_York] [2026-01-14 08:29:31] Début de la transaction PDO
+[14-Jan-2026 08:29:31 America/New_York] [2026-01-14 08:29:31] Recherche de la transaction pending
+[14-Jan-2026 08:29:31 America/New_York] [2026-01-14 08:29:31] SQL 1 | DATA: "SELECT * FROM pending_transactions WHERE id = ? AND status = 'pending'"
+[14-Jan-2026 08:29:31 America/New_York] [2026-01-14 08:29:31] Transaction trouvée | DATA: {"id":102,"user_id":143,"plan_id":3,"montant":"4000.00","methode":"orange","numero_telephone":"+237 670 45 72 18","transaction_code":"TXN2026011408043237EAAEBE","status":"pending","expires_at":"2026-04-28 12:04:32","created_at":"2026-01-14 13:04:31","updated_at":"2026-01-14 13:04:31","session_data":"{\"user_agent\":\"Mozilla\\\/5.0 (Linux; Android 12; Infinix X6516) AppleWebKit\\\/537.36 (KHTML, like Gecko) Chrome\\\/105.0.0.0 Mobile Safari\\\/537.36\",\"ip_address\":\"129.0.80.151\",\"referrer\":\"https:\\\/\\\/investian.infy.uk\\\/investissement\",\"timestamp\":1768395872}"}
+[14-Jan-2026 08:29:31 America/New_York] [2026-01-14 08:29:31] Vérification du plan | DATA: {"plan_id":3}
+[14-Jan-2026 08:29:31 America/New_York] [2026-01-14 08:29:31] Plan trouvé | DATA: {"id":3,"nom":"vip1","prix":"4000.00","roi_journalier":"1000.00","duree_jours":30,"videos_par_jour":10,"gain_par_video":"50.00","actif":1,"description":"bonbon","image":null,"created_at":"2025-12-02 18:43:31","updated_at":"2025-12-19 21:52:53"}
+[14-Jan-2026 08:29:31 America/New_York] [2026-01-14 08:29:31] Vérification de l'utilisateur | DATA: {"user_id":143}
+[14-Jan-2026 08:29:31 America/New_York] [2026-01-14 08:29:31] Utilisateur trouvé | DATA: {"id":143,"nom":"Mbe","prenom":"Ulrich","email":"mbeulrich2@gmail.com","phone":"+237 670 45 72 18","password":"$2y$10$ZAiATLhXc7dZAr26L4f\/muoRm.Un.fjKP2IwgVt3hg4NBIvwA8HpG","referral_code":"INVUM7F03DD","referred_by":2,"statut":"active","created_at":"2026-01-13 21:32:26","updated_at":"2026-01-13 21:32:26","email_notifications":1,"sms_notifications":0,"push_notifications":1,"marketing_emails":1,"two_factor_auth":0,"login_alerts":1,"session_timeout":60,"pays":null,"ville":null,"last_login":null}
+[14-Jan-2026 08:29:31 America/New_York] [2026-01-14 08:29:31] Insertion dans user_plans
+[14-Jan-2026 08:29:31 America/New_York] [2026-01-14 08:29:31] Dates calculées | DATA: {"date_debut":"2026-01-14 08:29:31","date_fin":"2026-02-13 08:29:31","duree_jours":30}
+[14-Jan-2026 08:29:31 America/New_York] [2026-01-14 08:29:31] SQL 4 | DATA: "INSERT INTO user_plans (user_id, plan_id, montant_investi, date_debut, date_fin, statut, created_at) \n                VALUES (?, ?, ?, ?, ?, 'active', NOW())"
+[14-Jan-2026 08:29:31 America/New_York] [2026-01-14 08:29:31] user_plans créé avec succès | DATA: {"id":"38"}
+[14-Jan-2026 08:29:31 America/New_York] [2026-01-14 08:29:31] Création de la transaction principale (Dépôt)
+[14-Jan-2026 08:29:31 America/New_York] [2026-01-14 08:29:31] SQL 5 | DATA: "INSERT INTO transactions (user_id, type, source, montant, methode, statut, reference, note, created_at) \n                VALUES (?, 'depot', 'investissement', ?, ?, 'success', ?, ?, NOW())"
+[14-Jan-2026 08:29:31 America/New_York] [2026-01-14 08:29:31] Création de la transaction d'achat
+[14-Jan-2026 08:29:31 America/New_York] [2026-01-14 08:29:31] Transactions créées avec succès
+[14-Jan-2026 08:29:31 America/New_York] [2026-01-14 08:29:31] Mise à jour du wallet (Total Dépôts uniquement)
+[14-Jan-2026 08:29:31 America/New_York] [2026-01-14 08:29:31] SQL 6 | DATA: "UPDATE wallets \n                SET total_depots = total_depots + ?,\n                    updated_at = NOW()\n                WHERE user_id = ?"
+[14-Jan-2026 08:29:31 America/New_York] [2026-01-14 08:29:31] Wallet mis à jour | DATA: {"rows_affected":1}
+[14-Jan-2026 08:29:31 America/New_York] [2026-01-14 08:29:31] Mise à jour de pending_transactions
+[14-Jan-2026 08:29:31 America/New_York] [2026-01-14 08:29:31] SQL 7 | DATA: "UPDATE pending_transactions \n                SET status = 'completed', \n                    updated_at = NOW() \n                WHERE id = ?"
+[14-Jan-2026 08:29:31 America/New_York] [2026-01-14 08:29:31] Pending_transactions mis à jour | DATA: {"rows_affected":1}
+[14-Jan-2026 08:29:31 America/New_York] [2026-01-14 08:29:31] Application du bonus de validation
+[14-Jan-2026 08:29:31 America/New_York] [2026-01-14 08:29:31] Bonus de validation de 200 FCFA appliqué
+[14-Jan-2026 08:29:31 America/New_York] [2026-01-14 08:29:31] Vérification du parrainage pour bonus 15%
+[14-Jan-2026 08:29:31 America/New_York] [2026-01-14 08:29:31] Parrain trouvé | DATA: {"parrain_id":2,"montant_investi":"4000.00","bonus":600}
+[14-Jan-2026 08:29:31 America/New_York] [2026-01-14 08:29:31] Bonus parrainage appliqué avec succès
+[14-Jan-2026 08:29:31 America/New_York] [2026-01-14 08:29:31] Commit de la transaction
+[14-Jan-2026 08:29:31 America/New_York] [2026-01-14 08:29:31] === VALIDATION RÉUSSIE === | DATA: {"transaction_id":"102","user_plan_id":"38","transaction_db_id":"151","montant":"4000.00","plan":"vip1"}
+[14-Jan-2026 08:29:31 America/New_York] [2026-01-14 08:29:31] Récupération des transactions en attente
+[14-Jan-2026 08:29:31 America/New_York] [2026-01-14 08:29:31] === DÉBUT getPendingTransactions ===
+[14-Jan-2026 08:29:31 America/New_York] [2026-01-14 08:29:31] SQL pour getPendingTransactions | DATA: "\n            SELECT \n                pt.*,\n                p.nom as plan_nom,\n                p.roi_journalier,\n                p.duree_jours,\n                u.nom,\n                u.prenom,\n                u.email,\n                u.phone,\n                TIMESTAMPDIFF(MINUTE, NOW(), pt.expires_at) as minutes_remaining,\n                CASE \n                    WHEN pt.expires_at < NOW() THEN 'expired'\n                    ELSE 'active'\n                END as expiration_status\n            FROM pending_transactions pt\n            LEFT JOIN plans p ON pt.plan_id = p.id\n            LEFT JOIN users u ON pt.user_id = u.id\n            WHERE pt.status = 'pending'\n            ORDER BY pt.created_at DESC\n        "
+[14-Jan-2026 08:29:31 America/New_York] [2026-01-14 08:29:31] Transactions récupérées | DATA: {"count":46,"premier":{"id":101,"user_id":143,"plan_id":3,"montant":"4000.00","methode":"orange","numero_telephone":"+237 670 45 72 18","transaction_code":"TXN202601140749567D69B46F","status":"pending","expires_at":"2026-04-28 11:49:56","created_at":"2026-01-14 12:49:56","updated_at":"2026-01-14 12:49:56","session_data":"{\"user_agent\":\"Mozilla\\\/5.0 (Linux; Android 12; Infinix X6516) AppleWebKit\\\/537.36 (KHTML, like Gecko) Chrome\\\/105.0.0.0 Mobile Safari\\\/537.36\",\"ip_address\":\"129.0.80.151\",\"referrer\":\"https:\\\/\\\/investian.infy.uk\\\/investissement\",\"timestamp\":1768394996}","plan_nom":"vip1","roi_journalier":"1000.00","duree_jours":30,"nom":"Mbe","prenom":"Ulrich","email":"mbeulrich2@gmail.com","phone":"+237 670 45 72 18","minutes_remaining":149660,"expiration_status":"active"}}
+[14-Jan-2026 08:29:31 America/New_York] [2026-01-14 08:29:31] Transactions en attente récupérées | DATA: {"count":46}
+[14-Jan-2026 08:29:31 America/New_York] [2026-01-14 08:29:31] Vérification de la structure de la base
+[14-Jan-2026 08:29:31 America/New_York] [2026-01-14 08:29:31] Table pending_transactions | DATA: {"exists":true}
+[14-Jan-2026 08:29:31 America/New_York] [2026-01-14 08:29:31] Table plans | DATA: {"exists":true}
+[14-Jan-2026 08:29:31 America/New_York] [2026-01-14 08:29:31] Table users | DATA: {"exists":true}
+[14-Jan-2026 08:29:31 America/New_York] [2026-01-14 08:29:31] Table user_plans | DATA: {"exists":true}
+[14-Jan-2026 08:29:31 America/New_York] [2026-01-14 08:29:31] Table transactions | DATA: {"exists":true}
+[14-Jan-2026 08:29:31 America/New_York] [2026-01-14 08:29:31] Table wallets | DATA: {"exists":true}
+[14-Jan-2026 08:29:31 America/New_York] [2026-01-14 08:29:31] Statistiques | DATA: {"pending_transactions":46,"user_plans":6}
+[14-Jan-2026 08:29:33 America/New_York] [2026-01-14 08:29:33] === DÉMARRAGE DU SCRIPT ===
+[14-Jan-2026 08:29:33 America/New_York] [2026-01-14 08:29:33] Tentative d'inclusion de config/database.php
+[14-Jan-2026 08:29:33 America/New_York] [2026-01-14 08:29:33] Fichier database.php inclus avec succès
+[14-Jan-2026 08:29:33 America/New_York] [2026-01-14 08:29:33] Admin ID dans session | DATA: {"admin_id":1}
+[14-Jan-2026 08:29:33 America/New_York] [2026-01-14 08:29:33] Tentative de connexion à la base de données
+[14-Jan-2026 08:29:33 America/New_York] [2026-01-14 08:29:33] Connexion à la base de données réussie
+[14-Jan-2026 08:29:33 America/New_York] [2026-01-14 08:29:33] Vérification du rôle admin | DATA: {"admin_id":1}
+[14-Jan-2026 08:29:33 America/New_York] [2026-01-14 08:29:33] Récupération du rôle | DATA: {"role":"superadmin"}
+[14-Jan-2026 08:29:33 America/New_York] [2026-01-14 08:29:33] Rôle vérifié avec succès | DATA: {"role":"superadmin"}
+[14-Jan-2026 08:29:33 America/New_York] [2026-01-14 08:29:33] Analyse des paramètres GET | DATA: {"page":"kyc"}
+[14-Jan-2026 08:29:33 America/New_York] [2026-01-14 08:29:33] Récupération des transactions en attente
+[14-Jan-2026 08:29:33 America/New_York] [2026-01-14 08:29:33] === DÉBUT getPendingTransactions ===
+[14-Jan-2026 08:29:33 America/New_York] [2026-01-14 08:29:33] SQL pour getPendingTransactions | DATA: "\n            SELECT \n                pt.*,\n                p.nom as plan_nom,\n                p.roi_journalier,\n                p.duree_jours,\n                u.nom,\n                u.prenom,\n                u.email,\n                u.phone,\n                TIMESTAMPDIFF(MINUTE, NOW(), pt.expires_at) as minutes_remaining,\n                CASE \n                    WHEN pt.expires_at < NOW() THEN 'expired'\n                    ELSE 'active'\n                END as expiration_status\n            FROM pending_transactions pt\n            LEFT JOIN plans p ON pt.plan_id = p.id\n            LEFT JOIN users u ON pt.user_id = u.id\n            WHERE pt.status = 'pending'\n            ORDER BY pt.created_at DESC\n        "
+[14-Jan-2026 08:29:33 America/New_York] [2026-01-14 08:29:33] Transactions récupérées | DATA: {"count":46,"premier":{"id":101,"user_id":143,"plan_id":3,"montant":"4000.00","methode":"orange","numero_telephone":"+237 670 45 72 18","transaction_code":"TXN202601140749567D69B46F","status":"pending","expires_at":"2026-04-28 11:49:56","created_at":"2026-01-14 12:49:56","updated_at":"2026-01-14 12:49:56","session_data":"{\"user_agent\":\"Mozilla\\\/5.0 (Linux; Android 12; Infinix X6516) AppleWebKit\\\/537.36 (KHTML, like Gecko) Chrome\\\/105.0.0.0 Mobile Safari\\\/537.36\",\"ip_address\":\"129.0.80.151\",\"referrer\":\"https:\\\/\\\/investian.infy.uk\\\/investissement\",\"timestamp\":1768394996}","plan_nom":"vip1","roi_journalier":"1000.00","duree_jours":30,"nom":"Mbe","prenom":"Ulrich","email":"mbeulrich2@gmail.com","phone":"+237 670 45 72 18","minutes_remaining":149660,"expiration_status":"active"}}
+[14-Jan-2026 08:29:33 America/New_York] [2026-01-14 08:29:33] Transactions en attente récupérées | DATA: {"count":46}
+[14-Jan-2026 08:29:33 America/New_York] [2026-01-14 08:29:33] Vérification de la structure de la base
+[14-Jan-2026 08:29:33 America/New_York] [2026-01-14 08:29:33] Table pending_transactions | DATA: {"exists":true}
+[14-Jan-2026 08:29:33 America/New_York] [2026-01-14 08:29:33] Table plans | DATA: {"exists":true}
+[14-Jan-2026 08:29:33 America/New_York] [2026-01-14 08:29:33] Table users | DATA: {"exists":true}
+[14-Jan-2026 08:29:33 America/New_York] [2026-01-14 08:29:33] Table user_plans | DATA: {"exists":true}
+[14-Jan-2026 08:29:33 America/New_York] [2026-01-14 08:29:33] Table transactions | DATA: {"exists":true}
+[14-Jan-2026 08:29:33 America/New_York] [2026-01-14 08:29:33] Table wallets | DATA: {"exists":true}
+[14-Jan-2026 08:29:33 America/New_York] [2026-01-14 08:29:33] Statistiques | DATA: {"pending_transactions":46,"user_plans":6}
+[14-Jan-2026 08:32:39 America/New_York] [2026-01-14 08:32:39] === DÉMARRAGE DU SCRIPT ===
+[14-Jan-2026 08:32:39 America/New_York] [2026-01-14 08:32:39] Tentative d'inclusion de config/database.php
+[14-Jan-2026 08:32:39 America/New_York] [2026-01-14 08:32:39] Fichier database.php inclus avec succès
+[14-Jan-2026 08:32:39 America/New_York] [2026-01-14 08:32:39] Admin ID dans session | DATA: {"admin_id":1}
+[14-Jan-2026 08:32:39 America/New_York] [2026-01-14 08:32:39] Tentative de connexion à la base de données
+[14-Jan-2026 08:32:39 America/New_York] [2026-01-14 08:32:39] Connexion à la base de données réussie
+[14-Jan-2026 08:32:39 America/New_York] [2026-01-14 08:32:39] Vérification du rôle admin | DATA: {"admin_id":1}
+[14-Jan-2026 08:32:39 America/New_York] [2026-01-14 08:32:39] Récupération du rôle | DATA: {"role":"superadmin"}
+[14-Jan-2026 08:32:39 America/New_York] [2026-01-14 08:32:39] Rôle vérifié avec succès | DATA: {"role":"superadmin"}
+[14-Jan-2026 08:32:39 America/New_York] [2026-01-14 08:32:39] Analyse des paramètres GET | DATA: {"page":"kyc"}
+[14-Jan-2026 08:32:39 America/New_York] [2026-01-14 08:32:39] Récupération des transactions en attente
+[14-Jan-2026 08:32:39 America/New_York] [2026-01-14 08:32:39] === DÉBUT getPendingTransactions ===
+[14-Jan-2026 08:32:39 America/New_York] [2026-01-14 08:32:39] SQL pour getPendingTransactions | DATA: "\n            SELECT \n                pt.*,\n                p.nom as plan_nom,\n                p.roi_journalier,\n                p.duree_jours,\n                u.nom,\n                u.prenom,\n                u.email,\n                u.phone,\n                TIMESTAMPDIFF(MINUTE, NOW(), pt.expires_at) as minutes_remaining,\n                CASE \n                    WHEN pt.expires_at < NOW() THEN 'expired'\n                    ELSE 'active'\n                END as expiration_status\n            FROM pending_transactions pt\n            LEFT JOIN plans p ON pt.plan_id = p.id\n            LEFT JOIN users u ON pt.user_id = u.id\n            WHERE pt.status = 'pending'\n            ORDER BY pt.created_at DESC\n        "
+[14-Jan-2026 08:32:39 America/New_York] [2026-01-14 08:32:39] Transactions récupérées | DATA: {"count":46,"premier":{"id":101,"user_id":143,"plan_id":3,"montant":"4000.00","methode":"orange","numero_telephone":"+237 670 45 72 18","transaction_code":"TXN202601140749567D69B46F","status":"pending","expires_at":"2026-04-28 11:49:56","created_at":"2026-01-14 12:49:56","updated_at":"2026-01-14 12:49:56","session_data":"{\"user_agent\":\"Mozilla\\\/5.0 (Linux; Android 12; Infinix X6516) AppleWebKit\\\/537.36 (KHTML, like Gecko) Chrome\\\/105.0.0.0 Mobile Safari\\\/537.36\",\"ip_address\":\"129.0.80.151\",\"referrer\":\"https:\\\/\\\/investian.infy.uk\\\/investissement\",\"timestamp\":1768394996}","plan_nom":"vip1","roi_journalier":"1000.00","duree_jours":30,"nom":"Mbe","prenom":"Ulrich","email":"mbeulrich2@gmail.com","phone":"+237 670 45 72 18","minutes_remaining":149657,"expiration_status":"active"}}
+[14-Jan-2026 08:32:39 America/New_York] [2026-01-14 08:32:39] Transactions en attente récupérées | DATA: {"count":46}
+[14-Jan-2026 08:32:39 America/New_York] [2026-01-14 08:32:39] Vérification de la structure de la base
+[14-Jan-2026 08:32:39 America/New_York] [2026-01-14 08:32:39] Table pending_transactions | DATA: {"exists":true}
+[14-Jan-2026 08:32:39 America/New_York] [2026-01-14 08:32:39] Table plans | DATA: {"exists":true}
+[14-Jan-2026 08:32:39 America/New_York] [2026-01-14 08:32:39] Table users | DATA: {"exists":true}
+[14-Jan-2026 08:32:39 America/New_York] [2026-01-14 08:32:39] Table user_plans | DATA: {"exists":true}
+[14-Jan-2026 08:32:39 America/New_York] [2026-01-14 08:32:39] Table transactions | DATA: {"exists":true}
+[14-Jan-2026 08:32:39 America/New_York] [2026-01-14 08:32:39] Table wallets | DATA: {"exists":true}
+[14-Jan-2026 08:32:39 America/New_York] [2026-01-14 08:32:39] Statistiques | DATA: {"pending_transactions":46,"user_plans":6}
+[14-Jan-2026 08:32:47 America/New_York] Exception: SQLSTATE[HY000]: General error: PDO::FETCH_KEY_PAIR fetch mode requires the result set to contain exactly 2 columns. in /home/vol11_8/infinityfree.com/if0_38067704/htdocs/test/admin/pages/settings.php on line 3
+[14-Jan-2026 08:32:55 America/New_York] Exception: SQLSTATE[HY000]: General error: PDO::FETCH_KEY_PAIR fetch mode requires the result set to contain exactly 2 columns. in /home/vol11_8/infinityfree.com/if0_38067704/htdocs/test/admin/pages/settings.php on line 3
+[14-Jan-2026 08:34:29 America/New_York] Exception: SQLSTATE[HY000]: General error: PDO::FETCH_KEY_PAIR fetch mode requires the result set to contain exactly 2 columns. in /home/vol11_8/infinityfree.com/if0_38067704/htdocs/test/admin/pages/settings.php on line 3
+[14-Jan-2026 08:34:48 America/New_York] [2026-01-14 08:34:48] === DÉMARRAGE DU SCRIPT ===
+[14-Jan-2026 08:34:48 America/New_York] [2026-01-14 08:34:48] Tentative d'inclusion de config/database.php
+[14-Jan-2026 08:34:48 America/New_York] [2026-01-14 08:34:48] Fichier database.php inclus avec succès
+[14-Jan-2026 08:34:48 America/New_York] [2026-01-14 08:34:48] Admin ID dans session | DATA: {"admin_id":1}
+[14-Jan-2026 08:34:48 America/New_York] [2026-01-14 08:34:48] Tentative de connexion à la base de données
+[14-Jan-2026 08:34:48 America/New_York] [2026-01-14 08:34:48] Connexion à la base de données réussie
+[14-Jan-2026 08:34:48 America/New_York] [2026-01-14 08:34:48] Vérification du rôle admin | DATA: {"admin_id":1}
+[14-Jan-2026 08:34:48 America/New_York] [2026-01-14 08:34:48] Récupération du rôle | DATA: {"role":"superadmin"}
+[14-Jan-2026 08:34:48 America/New_York] [2026-01-14 08:34:48] Rôle vérifié avec succès | DATA: {"role":"superadmin"}
+[14-Jan-2026 08:34:48 America/New_York] [2026-01-14 08:34:48] Analyse des paramètres GET | DATA: {"page":"kyc","action":"validate","id":"100"}
+[14-Jan-2026 08:34:48 America/New_York] [2026-01-14 08:34:48] Action VALIDER détectée | DATA: {"id":"100"}
+[14-Jan-2026 08:34:48 America/New_York] [2026-01-14 08:34:48] === DÉBUT validateTransaction === | DATA: {"transaction_id":"100"}
+[14-Jan-2026 08:34:48 America/New_York] [2026-01-14 08:34:48] Début de la transaction PDO
+[14-Jan-2026 08:34:48 America/New_York] [2026-01-14 08:34:48] Recherche de la transaction pending
+[14-Jan-2026 08:34:48 America/New_York] [2026-01-14 08:34:48] SQL 1 | DATA: "SELECT * FROM pending_transactions WHERE id = ? AND status = 'pending'"
+[14-Jan-2026 08:34:48 America/New_York] [2026-01-14 08:34:48] Transaction trouvée | DATA: {"id":100,"user_id":136,"plan_id":11,"montant":"6000.00","methode":"orange","numero_telephone":"+237 677 84 77 92","transaction_code":"TXN202601140543228CD31315","status":"pending","expires_at":"2026-04-28 09:43:22","created_at":"2026-01-14 10:43:22","updated_at":"2026-01-14 10:43:22","session_data":"{\"user_agent\":\"Mozilla\\\/5.0 (Linux; Android 10; K) AppleWebKit\\\/537.36 (KHTML, like Gecko) Chrome\\\/138.0.0.0 Mobile Safari\\\/537.36\",\"ip_address\":\"129.0.205.157\",\"referrer\":\"https:\\\/\\\/investian.infy.uk\\\/investissement\",\"timestamp\":1768387402}"}
+[14-Jan-2026 08:34:48 America/New_York] [2026-01-14 08:34:48] Vérification du plan | DATA: {"plan_id":11}
+[14-Jan-2026 08:34:48 America/New_York] [2026-01-14 08:34:48] Plan trouvé | DATA: {"id":11,"nom":"Vip 2","prix":"6000.00","roi_journalier":"1500.00","duree_jours":30,"videos_par_jour":3,"gain_par_video":"10.00","actif":1,"description":"","image":null,"created_at":"2025-12-15 18:51:40","updated_at":"2025-12-15 18:51:40"}
+[14-Jan-2026 08:34:48 America/New_York] [2026-01-14 08:34:48] Vérification de l'utilisateur | DATA: {"user_id":136}
+[14-Jan-2026 08:34:48 America/New_York] [2026-01-14 08:34:48] Utilisateur trouvé | DATA: {"id":136,"nom":"Lontsi","prenom":"Astride","email":"lontsiastride330@gmail.com","phone":"+237 677 84 77 92","password":"$2y$10$2WpHHNC7I2P9UdxLbuOUoes46zlxgZECj5IZOKvfznmYUoMuwK0nS","referral_code":"INVAL1AD6C4","referred_by":null,"statut":"active","created_at":"2026-01-13 18:28:22","updated_at":"2026-01-13 18:28:22","email_notifications":1,"sms_notifications":0,"push_notifications":1,"marketing_emails":1,"two_factor_auth":0,"login_alerts":1,"session_timeout":60,"pays":null,"ville":null,"last_login":null}
+[14-Jan-2026 08:34:48 America/New_York] [2026-01-14 08:34:48] Insertion dans user_plans
+[14-Jan-2026 08:34:48 America/New_York] [2026-01-14 08:34:48] Dates calculées | DATA: {"date_debut":"2026-01-14 08:34:48","date_fin":"2026-02-13 08:34:48","duree_jours":30}
+[14-Jan-2026 08:34:48 America/New_York] [2026-01-14 08:34:48] SQL 4 | DATA: "INSERT INTO user_plans (user_id, plan_id, montant_investi, date_debut, date_fin, statut, created_at) \n                VALUES (?, ?, ?, ?, ?, 'active', NOW())"
+[14-Jan-2026 08:34:48 America/New_York] [2026-01-14 08:34:48] user_plans créé avec succès | DATA: {"id":"39"}
+[14-Jan-2026 08:34:48 America/New_York] [2026-01-14 08:34:48] Création de la transaction principale (Dépôt)
+[14-Jan-2026 08:34:48 America/New_York] [2026-01-14 08:34:48] SQL 5 | DATA: "INSERT INTO transactions (user_id, type, source, montant, methode, statut, reference, note, created_at) \n                VALUES (?, 'depot', 'investissement', ?, ?, 'success', ?, ?, NOW())"
+[14-Jan-2026 08:34:48 America/New_York] [2026-01-14 08:34:48] Création de la transaction d'achat
+[14-Jan-2026 08:34:48 America/New_York] [2026-01-14 08:34:48] Transactions créées avec succès
+[14-Jan-2026 08:34:48 America/New_York] [2026-01-14 08:34:48] Mise à jour du wallet (Total Dépôts uniquement)
+[14-Jan-2026 08:34:48 America/New_York] [2026-01-14 08:34:48] SQL 6 | DATA: "UPDATE wallets \n                SET total_depots = total_depots + ?,\n                    updated_at = NOW()\n                WHERE user_id = ?"
+[14-Jan-2026 08:34:48 America/New_York] [2026-01-14 08:34:48] Wallet mis à jour | DATA: {"rows_affected":1}
+[14-Jan-2026 08:34:48 America/New_York] [2026-01-14 08:34:48] Mise à jour de pending_transactions
+[14-Jan-2026 08:34:48 America/New_York] [2026-01-14 08:34:48] SQL 7 | DATA: "UPDATE pending_transactions \n                SET status = 'completed', \n                    updated_at = NOW() \n                WHERE id = ?"
+[14-Jan-2026 08:34:48 America/New_York] [2026-01-14 08:34:48] Pending_transactions mis à jour | DATA: {"rows_affected":1}
+[14-Jan-2026 08:34:48 America/New_York] [2026-01-14 08:34:48] Application du bonus de validation
+[14-Jan-2026 08:34:48 America/New_York] [2026-01-14 08:34:48] Bonus de validation de 200 FCFA appliqué
+[14-Jan-2026 08:34:48 America/New_York] [2026-01-14 08:34:48] Vérification du parrainage pour bonus 15%
+[14-Jan-2026 08:34:48 America/New_York] [2026-01-14 08:34:48] Aucun parrain trouvé pour cet utilisateur
+[14-Jan-2026 08:34:48 America/New_York] [2026-01-14 08:34:48] Commit de la transaction
+[14-Jan-2026 08:34:48 America/New_York] [2026-01-14 08:34:48] === VALIDATION RÉUSSIE === | DATA: {"transaction_id":"100","user_plan_id":"39","transaction_db_id":"155","montant":"6000.00","plan":"Vip 2"}
+[14-Jan-2026 08:34:48 America/New_York] [2026-01-14 08:34:48] Récupération des transactions en attente
+[14-Jan-2026 08:34:48 America/New_York] [2026-01-14 08:34:48] === DÉBUT getPendingTransactions ===
+[14-Jan-2026 08:34:48 America/New_York] [2026-01-14 08:34:48] SQL pour getPendingTransactions | DATA: "\n            SELECT \n                pt.*,\n                p.nom as plan_nom,\n                p.roi_journalier,\n                p.duree_jours,\n                u.nom,\n                u.prenom,\n                u.email,\n                u.phone,\n                TIMESTAMPDIFF(MINUTE, NOW(), pt.expires_at) as minutes_remaining,\n                CASE \n                    WHEN pt.expires_at < NOW() THEN 'expired'\n                    ELSE 'active'\n                END as expiration_status\n            FROM pending_transactions pt\n            LEFT JOIN plans p ON pt.plan_id = p.id\n            LEFT JOIN users u ON pt.user_id = u.id\n            WHERE pt.status = 'pending'\n            ORDER BY pt.created_at DESC\n        "
+[14-Jan-2026 08:34:48 America/New_York] [2026-01-14 08:34:48] Transactions récupérées | DATA: {"count":45,"premier":{"id":101,"user_id":143,"plan_id":3,"montant":"4000.00","methode":"orange","numero_telephone":"+237 670 45 72 18","transaction_code":"TXN202601140749567D69B46F","status":"pending","expires_at":"2026-04-28 11:49:56","created_at":"2026-01-14 12:49:56","updated_at":"2026-01-14 12:49:56","session_data":"{\"user_agent\":\"Mozilla\\\/5.0 (Linux; Android 12; Infinix X6516) AppleWebKit\\\/537.36 (KHTML, like Gecko) Chrome\\\/105.0.0.0 Mobile Safari\\\/537.36\",\"ip_address\":\"129.0.80.151\",\"referrer\":\"https:\\\/\\\/investian.infy.uk\\\/investissement\",\"timestamp\":1768394996}","plan_nom":"vip1","roi_journalier":"1000.00","duree_jours":30,"nom":"Mbe","prenom":"Ulrich","email":"mbeulrich2@gmail.com","phone":"+237 670 45 72 18","minutes_remaining":149655,"expiration_status":"active"}}
+[14-Jan-2026 08:34:48 America/New_York] [2026-01-14 08:34:48] Transactions en attente récupérées | DATA: {"count":45}
+[14-Jan-2026 08:34:48 America/New_York] [2026-01-14 08:34:48] Vérification de la structure de la base
+[14-Jan-2026 08:34:48 America/New_York] [2026-01-14 08:34:48] Table pending_transactions | DATA: {"exists":true}
+[14-Jan-2026 08:34:48 America/New_York] [2026-01-14 08:34:48] Table plans | DATA: {"exists":true}
+[14-Jan-2026 08:34:48 America/New_York] [2026-01-14 08:34:48] Table users | DATA: {"exists":true}
+[14-Jan-2026 08:34:48 America/New_York] [2026-01-14 08:34:48] Table user_plans | DATA: {"exists":true}
+[14-Jan-2026 08:34:48 America/New_York] [2026-01-14 08:34:48] Table transactions | DATA: {"exists":true}
+[14-Jan-2026 08:34:48 America/New_York] [2026-01-14 08:34:48] Table wallets | DATA: {"exists":true}
+[14-Jan-2026 08:34:48 America/New_York] [2026-01-14 08:34:48] Statistiques | DATA: {"pending_transactions":45,"user_plans":7}
+[14-Jan-2026 08:34:52 America/New_York] [2026-01-14 08:34:52] === DÉMARRAGE DU SCRIPT ===
+[14-Jan-2026 08:34:52 America/New_York] [2026-01-14 08:34:52] Tentative d'inclusion de config/database.php
+[14-Jan-2026 08:34:52 America/New_York] [2026-01-14 08:34:52] Fichier database.php inclus avec succès
+[14-Jan-2026 08:34:52 America/New_York] [2026-01-14 08:34:52] Admin ID dans session | DATA: {"admin_id":1}
+[14-Jan-2026 08:34:52 America/New_York] [2026-01-14 08:34:52] Tentative de connexion à la base de données
+[14-Jan-2026 08:34:52 America/New_York] [2026-01-14 08:34:52] Connexion à la base de données réussie
+[14-Jan-2026 08:34:52 America/New_York] [2026-01-14 08:34:52] Vérification du rôle admin | DATA: {"admin_id":1}
+[14-Jan-2026 08:34:52 America/New_York] [2026-01-14 08:34:52] Récupération du rôle | DATA: {"role":"superadmin"}
+[14-Jan-2026 08:34:52 America/New_York] [2026-01-14 08:34:52] Rôle vérifié avec succès | DATA: {"role":"superadmin"}
+[14-Jan-2026 08:34:52 America/New_York] [2026-01-14 08:34:52] Analyse des paramètres GET | DATA: {"page":"kyc"}
+[14-Jan-2026 08:34:52 America/New_York] [2026-01-14 08:34:52] Récupération des transactions en attente
+[14-Jan-2026 08:34:52 America/New_York] [2026-01-14 08:34:52] === DÉBUT getPendingTransactions ===
+[14-Jan-2026 08:34:52 America/New_York] [2026-01-14 08:34:52] SQL pour getPendingTransactions | DATA: "\n            SELECT \n                pt.*,\n                p.nom as plan_nom,\n                p.roi_journalier,\n                p.duree_jours,\n                u.nom,\n                u.prenom,\n                u.email,\n                u.phone,\n                TIMESTAMPDIFF(MINUTE, NOW(), pt.expires_at) as minutes_remaining,\n                CASE \n                    WHEN pt.expires_at < NOW() THEN 'expired'\n                    ELSE 'active'\n                END as expiration_status\n            FROM pending_transactions pt\n            LEFT JOIN plans p ON pt.plan_id = p.id\n            LEFT JOIN users u ON pt.user_id = u.id\n            WHERE pt.status = 'pending'\n            ORDER BY pt.created_at DESC\n        "
+[14-Jan-2026 08:34:52 America/New_York] [2026-01-14 08:34:52] Transactions récupérées | DATA: {"count":45,"premier":{"id":101,"user_id":143,"plan_id":3,"montant":"4000.00","methode":"orange","numero_telephone":"+237 670 45 72 18","transaction_code":"TXN202601140749567D69B46F","status":"pending","expires_at":"2026-04-28 11:49:56","created_at":"2026-01-14 12:49:56","updated_at":"2026-01-14 12:49:56","session_data":"{\"user_agent\":\"Mozilla\\\/5.0 (Linux; Android 12; Infinix X6516) AppleWebKit\\\/537.36 (KHTML, like Gecko) Chrome\\\/105.0.0.0 Mobile Safari\\\/537.36\",\"ip_address\":\"129.0.80.151\",\"referrer\":\"https:\\\/\\\/investian.infy.uk\\\/investissement\",\"timestamp\":1768394996}","plan_nom":"vip1","roi_journalier":"1000.00","duree_jours":30,"nom":"Mbe","prenom":"Ulrich","email":"mbeulrich2@gmail.com","phone":"+237 670 45 72 18","minutes_remaining":149655,"expiration_status":"active"}}
+[14-Jan-2026 08:34:52 America/New_York] [2026-01-14 08:34:52] Transactions en attente récupérées | DATA: {"count":45}
+[14-Jan-2026 08:34:52 America/New_York] [2026-01-14 08:34:52] Vérification de la structure de la base
+[14-Jan-2026 08:34:52 America/New_York] [2026-01-14 08:34:52] Table pending_transactions | DATA: {"exists":true}
+[14-Jan-2026 08:34:52 America/New_York] [2026-01-14 08:34:52] Table plans | DATA: {"exists":true}
+[14-Jan-2026 08:34:52 America/New_York] [2026-01-14 08:34:52] Table users | DATA: {"exists":true}
+[14-Jan-2026 08:34:52 America/New_York] [2026-01-14 08:34:52] Table user_plans | DATA: {"exists":true}
+[14-Jan-2026 08:34:52 America/New_York] [2026-01-14 08:34:52] Table transactions | DATA: {"exists":true}
+[14-Jan-2026 08:34:52 America/New_York] [2026-01-14 08:34:52] Table wallets | DATA: {"exists":true}
+[14-Jan-2026 08:34:52 America/New_York] [2026-01-14 08:34:52] Statistiques | DATA: {"pending_transactions":45,"user_plans":7}
+[14-Jan-2026 08:37:10 America/New_York] [2026-01-14 08:37:10] === DÉMARRAGE DU SCRIPT ===
+[14-Jan-2026 08:37:10 America/New_York] [2026-01-14 08:37:10] Tentative d'inclusion de config/database.php
+[14-Jan-2026 08:37:10 America/New_York] [2026-01-14 08:37:10] Fichier database.php inclus avec succès
+[14-Jan-2026 08:37:10 America/New_York] [2026-01-14 08:37:10] Admin ID dans session | DATA: {"admin_id":1}
+[14-Jan-2026 08:37:10 America/New_York] [2026-01-14 08:37:10] Tentative de connexion à la base de données
+[14-Jan-2026 08:37:10 America/New_York] [2026-01-14 08:37:10] Connexion à la base de données réussie
+[14-Jan-2026 08:37:10 America/New_York] [2026-01-14 08:37:10] Vérification du rôle admin | DATA: {"admin_id":1}
+[14-Jan-2026 08:37:10 America/New_York] [2026-01-14 08:37:10] Récupération du rôle | DATA: {"role":"superadmin"}
+[14-Jan-2026 08:37:10 America/New_York] [2026-01-14 08:37:10] Rôle vérifié avec succès | DATA: {"role":"superadmin"}
+[14-Jan-2026 08:37:10 America/New_York] [2026-01-14 08:37:10] Analyse des paramètres GET | DATA: {"page":"kyc"}
+[14-Jan-2026 08:37:10 America/New_York] [2026-01-14 08:37:10] Récupération des transactions en attente
+[14-Jan-2026 08:37:10 America/New_York] [2026-01-14 08:37:10] === DÉBUT getPendingTransactions ===
+[14-Jan-2026 08:37:10 America/New_York] [2026-01-14 08:37:10] SQL pour getPendingTransactions | DATA: "\n            SELECT \n                pt.*,\n                p.nom as plan_nom,\n                p.roi_journalier,\n                p.duree_jours,\n                u.nom,\n                u.prenom,\n                u.email,\n                u.phone,\n                TIMESTAMPDIFF(MINUTE, NOW(), pt.expires_at) as minutes_remaining,\n                CASE \n                    WHEN pt.expires_at < NOW() THEN 'expired'\n                    ELSE 'active'\n                END as expiration_status\n            FROM pending_transactions pt\n            LEFT JOIN plans p ON pt.plan_id = p.id\n            LEFT JOIN users u ON pt.user_id = u.id\n            WHERE pt.status = 'pending'\n            ORDER BY pt.created_at DESC\n        "
+[14-Jan-2026 08:37:10 America/New_York] [2026-01-14 08:37:10] Transactions récupérées | DATA: {"count":45,"premier":{"id":101,"user_id":143,"plan_id":3,"montant":"4000.00","methode":"orange","numero_telephone":"+237 670 45 72 18","transaction_code":"TXN202601140749567D69B46F","status":"pending","expires_at":"2026-04-28 11:49:56","created_at":"2026-01-14 12:49:56","updated_at":"2026-01-14 12:49:56","session_data":"{\"user_agent\":\"Mozilla\\\/5.0 (Linux; Android 12; Infinix X6516) AppleWebKit\\\/537.36 (KHTML, like Gecko) Chrome\\\/105.0.0.0 Mobile Safari\\\/537.36\",\"ip_address\":\"129.0.80.151\",\"referrer\":\"https:\\\/\\\/investian.infy.uk\\\/investissement\",\"timestamp\":1768394996}","plan_nom":"vip1","roi_journalier":"1000.00","duree_jours":30,"nom":"Mbe","prenom":"Ulrich","email":"mbeulrich2@gmail.com","phone":"+237 670 45 72 18","minutes_remaining":149652,"expiration_status":"active"}}
+[14-Jan-2026 08:37:10 America/New_York] [2026-01-14 08:37:10] Transactions en attente récupérées | DATA: {"count":45}
+[14-Jan-2026 08:37:10 America/New_York] [2026-01-14 08:37:10] Vérification de la structure de la base
+[14-Jan-2026 08:37:10 America/New_York] [2026-01-14 08:37:10] Table pending_transactions | DATA: {"exists":true}
+[14-Jan-2026 08:37:10 America/New_York] [2026-01-14 08:37:10] Table plans | DATA: {"exists":true}
+[14-Jan-2026 08:37:10 America/New_York] [2026-01-14 08:37:10] Table users | DATA: {"exists":true}
+[14-Jan-2026 08:37:10 America/New_York] [2026-01-14 08:37:10] Table user_plans | DATA: {"exists":true}
+[14-Jan-2026 08:37:10 America/New_York] [2026-01-14 08:37:10] Table transactions | DATA: {"exists":true}
+[14-Jan-2026 08:37:10 America/New_York] [2026-01-14 08:37:10] Table wallets | DATA: {"exists":true}
+[14-Jan-2026 08:37:10 America/New_York] [2026-01-14 08:37:10] Statistiques | DATA: {"pending_transactions":45,"user_plans":7}
